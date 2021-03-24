@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+{% inlcude 'flash_messages.html' %}
+
+{% if properties|lenth > 0 %}
+<div class="container">
+    <ul class="container">
+    {% for item in items %}
+        <li> 
+            <img src="{{ url_for('get_image', filename=property.photo) }}"/>
+        </li>
+        <div class="carBody">
+            <h5 class="title">{{ property.Title }} </h5>
+            <p class="location "><i aria-hidden="true"></i> {{ property.location }}</p>
+            <span class="attprice">${{ property.Price }}</span>
+        </div>
+        <form method='GET' action="{{ url_for('propertyid', propertyid = property.id) }}">
+            <button type="submit">View Property</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <h3>No properties available</h3>
+{% endif %}
+    </ul>
+</div>
+{% endblock %}

@@ -4,9 +4,16 @@ Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
 Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
+import os
+from app import app , models 
+from flask import render_template, request, redirect, url_for, flash
+from werkzeug.utils import secure_filename
 
-from app import app
-from flask import render_template, request, redirect, url_for
+from .forms import PropertyForm
+from flask import send_from_directory
+
+from app.models import PropertyInfo
+from app import db
 
 
 ###
@@ -22,9 +29,53 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Imani Miller")
+
+@app.route('/property', methods=['GET', 'POST'])
+def Property():
+    
+    form = PropertyForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        title = request.form['Title']
+        nObedrooms = request.form['bedroom']
+        nObathrooms = request.form['bathrooms']
+        location = request.form['Location']
+        price = request.form['Price']
+        typee= request.form['Type']
+        description = request.form['Description']
+        photo = request.form['Photo']
+
+        filename = secure_filename(photo.filename)
+
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        property_info = PropertyInfo(title, nObedrooms, nObathrooms, location, price, typeHA, description, filename)
+
+        db.session.add(property_info)
+        db.session.commit()
+
+        flash("Property was Successfully Added", "success")
+        return redirect(url_for('properties'))
+    return render_template("property.html", form = form)
+  
+
+@app.route('/properties')
+def properties():
+    properties = PropertyInfo.query.all()
+    if request.method == 'GET':
+        return render_template('properties.html', properties = properties)
+
+@app.route('/property/<propertyid>', methods = ['GET'])
+def propertyid():
+    propertycard = PropertyInfo.query.filter_by(id = propertyid).first()
+    if request.method == 'GET':
+        return render_template('propertyid.html', property = propertycard)
 
 
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    root_dir = os.getcwdb()
+    return send_from_directory(os.path.join('..', app.config['UPLOAD_FOLDER']), filename)
 ###
 # The functions below should be applicable to all Flask apps.
 ###

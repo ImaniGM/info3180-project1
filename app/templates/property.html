@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block main %}
+  <div class="login-form center-block">
+    <h2>Add New Property</h2>
+    {% include 'flash_messages.html' %}
+    <form action="{{ url_for('Property') }}" method="post">
+      {{ form.csrf_token }}
+      <div class="form-group">
+        {{ form.Title.label }}
+        <br>
+        {{ form.Title(class='form-control') }}
+      </div>
+      <div class="form-group">
+        {{ form.Description.label }}
+        {{ form.Description(class='form-control') }}
+      </div>
+      <div class="form-group">
+        {{ form.bedrooms.label }}
+        {{ form.bedrooms(class='form-control') }}
+      </div>
+      <div class="form-group">
+        {{ form.bathrooms.label }}
+        {{ form.bathrooms(class='form-control') }}
+      </div>
+      <div class="form-group">
+        {{ form.Location.label }}
+        {{ form.Location(class='form-control') }}
+      </div>
+      <div class="form-group">
+        {{ form.Price.label }}
+        {{ form.Price(class='form-control') }}
+      </div>
+      <div class="form-group">
+        {{ form.Typee.label }}
+        {{ form.Typee(class='form-control') }}
+      </div>
+      <div class="form-group">
+       
+        {{ form.Photo.label }}
+        {{ form.Photo(class='form-control') }}
+      </div>
+      <button type="submit" name="submit" class="btn btn-primary btn-block">Add Property</button>
+    </form>
+  </div>
+{% endblock %}

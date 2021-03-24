@@ -1,0 +1,33 @@
+  
+	{% extends "base.html" %}  
+	{% block main %}
+   <div class= "profile">
+     <div class= "border">
+	<img src= "{{url_for('static', filename="uploads + properties.item}}" />
+	<h1> {{Property title}} </h1>  
+
+     </div>
+     <div class="card">
+       
+         <span class="num">  
+         <p class="norm"> ${{property.Price}}</p>
+         </span>
+         <span class="num"> 
+         <p class="norm"> {{property.Type}}</p> 
+         </span>
+      </div><br>
+      <div class="card">
+       
+        
+         <p class="norm"> {{propertyid.Number of Bedrooms}} Bedrooms </p>
+        
+         <p class="norm"> {{propertyid.Number of Bathrooms}}  Bathrooms </p> 
+        
+      </div><br>
+
+        <span class="num"> 
+          <p class="norm"> {{propertyid.Location}} </p> 
+        </span>
+       <p><button type= "submit">Email Realtor</button></p>
+    </div>
+       {% endblock %}
